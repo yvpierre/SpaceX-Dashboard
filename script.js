@@ -12,6 +12,7 @@ window.onload = async () => {
     const nameLatest = document.querySelector(".lastRocket--name")
     const typeLatest = document.querySelector(".lastRocket--type")
     const amountAll = document.querySelector(".generalInfos--totalFlights")
+    const restMain = document.querySelector(".generalInfos--elem--rest")
 
     let launchpads  = await fetch("https://api.spacexdata.com/v4/launchpads/")
     let all  = await fetch("https://api.spacexdata.com/v4/launches/")
@@ -43,6 +44,8 @@ window.onload = async () => {
     nameLatest.textContent = nameLatest.textContent + dataLatest.name.toString()
     typeLatest.innerText = typeLatest.innerText + latestRocket.typeR()
     amountAll.innerText = sizeData(dataAll) + amountAll.innerText
+
+    restMain.style.color = "red"
 }
 
 function sizeData(item) {
