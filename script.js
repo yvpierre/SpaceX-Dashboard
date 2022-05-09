@@ -11,7 +11,7 @@ class rocket {
 window.onload = async () => {
     const nameLatest = document.querySelector(".lastRocket--name")
     const typeLatest = document.querySelector(".lastRocket--type")
-    const amountAll = document.querySelector(".rocket--amount")
+    const amountAll = document.querySelector(".generalInfos--totalFlights")
 
     let launchpads  = await fetch("https://api.spacexdata.com/v4/launchpads/")
     let all  = await fetch("https://api.spacexdata.com/v4/launches/")
@@ -30,6 +30,8 @@ window.onload = async () => {
 
     console.log(dataAll[1].date_utc.toString())
 
+    console.log("Launch year : "+ getLaunchYear("20120239"))
+
     for(let i=0; i<sizeData(dataLaunchpads); i++) {
         let pos = document.createElement("div")
         pos.innerHTML = "Launchpad n° :"+(i+1)+"<br>Lattitude : "+ dataLaunchpads[i].latitude.toString()+ "<br>Longitude : "+ dataLaunchpads[i].longitude.toString() + "<br><br>"
@@ -38,10 +40,9 @@ window.onload = async () => {
 
 
 
-
     nameLatest.textContent = nameLatest.textContent + dataLatest.name.toString()
     typeLatest.innerText = typeLatest.innerText + latestRocket.typeR()
-    amountAll.innerText = amountAll.innerText + sizeData(dataAll)
+    amountAll.innerText = sizeData(dataAll) + amountAll.innerText
 }
 
 function sizeData(item) {
@@ -58,11 +59,44 @@ function sizeData(item) {
     return i
 }
 
+function setCharAt(str, index, chg) {
+    if(index > str.length-1) return str;
+
+    return str.substring(0, index) + chg + str.substring(index+1)
+
+}
+
 function getLaunchYear(date) {
-    if(date.charAt(3) === "0"){
-
+    let year = "2000"
+    console.log("3 : "+date.charAt(3))
+    if(date.charAt(2) === "0"){
+        setCharAt(year, 2, "0")
+        for(let i=0; i<10; i++){
+            if(i.toString() === date.charAt(3)){
+                console.log(i)
+                setCharAt(year, 3, i.toString())
+            }
+        }
+    }else if(date.charAt(2) === "1"){
+        console.log(year.charAt(2))
+        setCharAt(year, 2, 1)
+        console.log(year.charAt(2))
+        for(let i=0; i<10; i++){
+            if(i.toString() === date.charAt(3)){
+                setCharAt(year, 3, i.toString())
+            }
+        }
+    }else if(date.charAt(2) === "2") {
+        setCharAt(year, 2, "2")
+        console.log(year.charAt(2))
+        for(let i=0; i<10; i++){
+            if(i.toString() === date.charAt(3)){
+                setCharAt(year, 3, i.toString())
+            }
+        }
     }else {
-
+        console.log("this year is still yet to come")
     }
-    let year = date.charAt()
+
+    return year
 }
