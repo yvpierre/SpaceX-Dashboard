@@ -16,6 +16,7 @@ body {
     --color--18: #E0AAFF;
 
     padding: 50px 150px 250px 150px;
+    position: relative;
 
 }
 
@@ -113,9 +114,14 @@ h3 {
 
 .generalInfos--elem {
     font-size: 24px;
-    color: var(--color--18);
 }
 
-.generalInfos--elem--rest {
-    color: white !important;
+
+#particles-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
 }
