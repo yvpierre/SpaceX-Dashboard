@@ -48,28 +48,31 @@ var rocket = /** @class */ (function () {
 }());
 // @ts-ignore
 window.onload = function () { return __awaiter(_this, void 0, void 0, function () {
-    var nameLatest, typeLatest, amountAll, avgShips, launchpads, all, latest, test, dataAll, dataLatest, dataLaunchpads, dataTest, latestRocket, i, pos, str;
+    var nameLatest, typeLatest, successLatest, flightNumberLatest, idLatest, amountAll, avgShips, latest, all, launchpads, landpads, dataAll, dataLatest, dataLaunchpads, dataLandpads, latestRocket, i, pos;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 nameLatest = document.querySelector(".lastRocket--name");
                 typeLatest = document.querySelector(".lastRocket--type");
+                successLatest = document.querySelector(".lastRocket--success");
+                flightNumberLatest = document.querySelector(".lastRocket--flightNumber");
+                idLatest = document.querySelector(".lastRocket--id");
                 amountAll = document.querySelector(".generalInfos--totalFlights");
                 avgShips = document.querySelector(".generalInfos--avgShips");
-                return [4 /*yield*/, fetch("https://api.spacexdata.com/v4/launchpads/")];
+                return [4 /*yield*/, fetch("https://api.spacexdata.com/v4/launches/latest")];
             case 1:
-                launchpads = _a.sent();
+                latest = _a.sent();
                 return [4 /*yield*/, fetch("https://api.spacexdata.com/v4/launches/")];
             case 2:
                 all = _a.sent();
-                return [4 /*yield*/, fetch("https://api.spacexdata.com/v4/launches/latest")];
+                return [4 /*yield*/, fetch("https://api.spacexdata.com/v4/launchpads/")];
             case 3:
-                latest = _a.sent();
+                launchpads = _a.sent();
                 return [4 /*yield*/, fetch("https://api.spacexdata.com/v4/landpads/")
                     // PARSING WHEN NECESSARY
                 ];
             case 4:
-                test = _a.sent();
+                landpads = _a.sent();
                 return [4 /*yield*/, all.json()];
             case 5:
                 dataAll = _a.sent();
@@ -79,26 +82,27 @@ window.onload = function () { return __awaiter(_this, void 0, void 0, function (
                 return [4 /*yield*/, launchpads.json()];
             case 7:
                 dataLaunchpads = _a.sent();
-                return [4 /*yield*/, test.json()];
+                return [4 /*yield*/, landpads.json()];
             case 8:
-                dataTest = _a.sent();
+                dataLandpads = _a.sent();
                 latestRocket = new rocket(dataLatest.rocket.toString());
                 // PUTTING INTO CONSOLE
-                console.log(dataAll);
                 console.log(dataLatest);
+                console.log(dataAll);
                 console.log(dataLaunchpads);
-                console.log(dataTest);
-                console.log(dataAll[1].date_utc.toString());
+                console.log(dataLandpads);
                 for (i = 0; i < sizeData(dataLaunchpads); i++) {
                     pos = document.createElement("div");
                     pos.innerHTML = "Launchpad n° :" + (i + 1) + "<br>Lattitude : " + dataLaunchpads[i].latitude.toString() + "<br>Longitude : " + dataLaunchpads[i].longitude.toString() + "<br><br>";
                     // @ts-ignore
                     document.querySelector(".launchpads").appendChild(pos);
                 }
-                str = "2022-02-39";
-                console.log(str.substring(0, 10));
+                // LATEST
                 nameLatest.textContent = nameLatest.textContent + dataLatest.name.toString();
-                typeLatest.innerText = typeLatest.innerText + latestRocket.typeR();
+                typeLatest.innerHTML = typeLatest.innerHTML + " " + latestRocket.typeR();
+                flightNumberLatest.innerHTML = flightNumberLatest.innerHTML + " " + dataLatest.flight_number.toString();
+                idLatest.innerHTML = idLatest.innerHTML + " " + dataLatest.id.toString();
+                dataLatest.success ? successLatest.innerHTML = successLatest.innerHTML + " SUCCESS" : successLatest.innerHTML = successLatest.innerHTML + " FAILURE";
                 // GENERAL INFOS
                 amountAll.innerText = sizeData(dataAll) + " " + amountAll.innerText;
                 avgShips.innerText = calcShips(dataAll) + " " + avgShips.innerText;
