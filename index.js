@@ -48,13 +48,14 @@ var rocket = /** @class */ (function () {
 }());
 // @ts-ignore
 window.onload = function () { return __awaiter(_this, void 0, void 0, function () {
-    var nameLatest, typeLatest, amountAll, launchpads, all, latest, test, dataAll, dataLatest, dataLaunchpads, dataTest, latestRocket, i, pos;
+    var nameLatest, typeLatest, amountAll, avgShips, launchpads, all, latest, test, dataAll, dataLatest, dataLaunchpads, dataTest, latestRocket, i, pos, str;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 nameLatest = document.querySelector(".lastRocket--name");
                 typeLatest = document.querySelector(".lastRocket--type");
                 amountAll = document.querySelector(".generalInfos--totalFlights");
+                avgShips = document.querySelector(".generalInfos--avgShips");
                 return [4 /*yield*/, fetch("https://api.spacexdata.com/v4/launchpads/")];
             case 1:
                 launchpads = _a.sent();
@@ -88,16 +89,19 @@ window.onload = function () { return __awaiter(_this, void 0, void 0, function (
                 console.log(dataLaunchpads);
                 console.log(dataTest);
                 console.log(dataAll[1].date_utc.toString());
-                console.log("Launch year : " + getLaunchYear("20120239"));
                 for (i = 0; i < sizeData(dataLaunchpads); i++) {
                     pos = document.createElement("div");
                     pos.innerHTML = "Launchpad n° :" + (i + 1) + "<br>Lattitude : " + dataLaunchpads[i].latitude.toString() + "<br>Longitude : " + dataLaunchpads[i].longitude.toString() + "<br><br>";
+                    // @ts-ignore
                     document.querySelector(".launchpads").appendChild(pos);
                 }
+                str = "2022-02-39";
+                console.log(str.substring(0, 10));
                 nameLatest.textContent = nameLatest.textContent + dataLatest.name.toString();
                 typeLatest.innerText = typeLatest.innerText + latestRocket.typeR();
                 // GENERAL INFOS
                 amountAll.innerText = sizeData(dataAll) + " " + amountAll.innerText;
+                avgShips.innerText = calcShips(dataAll) + " " + avgShips.innerText;
                 /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
                 // @ts-ignore
                 particlesJS.load('particles-js', 'particles.json', function () {
@@ -107,10 +111,22 @@ window.onload = function () { return __awaiter(_this, void 0, void 0, function (
         }
     });
 }); };
+function calcShips(flights) {
+    var avg = 0;
+    var total = 0;
+    for (var i = 0; i < flights.length; i++) {
+        for (var j = 0; j < flights[i].ships.length; i++) {
+            total++;
+        }
+    }
+    avg = total / flights.length;
+    return avg.toFixed(2);
+}
 function sizeData(item) {
     var fin = false;
     var i = 0;
     while (fin === false) {
+        // @ts-ignore
         if (item[i]) {
             i++;
         }
@@ -120,57 +136,13 @@ function sizeData(item) {
     }
     return i;
 }
-function setCharAt(str, index, chg) {
-    if (index > str.length - 1)
-        return str;
-    return str.substring(0, index) + chg + str.substring(index + 1);
-}
-function convertDate(da) {
-    var date = new Date(da * 1000);
-    // Hours part from the timestamp
-    var hours = date.getHours();
-    // Minutes part from the timestamp
-    var minutes = "0" + date.getMinutes();
-    // Seconds part from the timestamp
-    var seconds = "0" + date.getSeconds();
-    // Will display time in 10:30:23 format
-    var formattedTime = hours + ':' + minutes.substring(-2) + ':' + seconds.substring(-2);
-    console.log(formattedTime);
-}
-convertDate(1607271420);
-function getLaunchYear(date) {
-    var year = "2000";
-    console.log("3 : " + date.charAt(3));
-    if (date.charAt(2) === "0") {
-        setCharAt(year, 2, "0");
-        for (var i = 0; i < 10; i++) {
-            if (i.toString() === date.charAt(3)) {
-                console.log(i);
-                setCharAt(year, 3, i.toString());
-            }
-        }
-    }
-    else if (date.charAt(2) === "1") {
-        console.log(year.charAt(2));
-        setCharAt(year, 2, 1);
-        console.log(year.charAt(2));
-        for (var i = 0; i < 10; i++) {
-            if (i.toString() === date.charAt(3)) {
-                setCharAt(year, 3, i.toString());
-            }
-        }
-    }
-    else if (date.charAt(2) === "2") {
-        setCharAt(year, 2, "2");
-        console.log(year.charAt(2));
-        for (var i = 0; i < 10; i++) {
-            if (i.toString() === date.charAt(3)) {
-                setCharAt(year, 3, i.toString());
-            }
-        }
-    }
-    else {
-        console.log("this year is still yet to come");
-    }
-    return year;
+function getLaunchYear(d) {
+    var date = new Date(d);
+    console.log("Date: " + date.getDate() +
+        "/" + (date.getMonth() + 1) +
+        "/" + date.getFullYear() +
+        " " + date.getHours() +
+        ":" + date.getMinutes() +
+        ":" + date.getSeconds());
+    console.log(date.getFullYear());
 }

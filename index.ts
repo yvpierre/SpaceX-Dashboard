@@ -5,7 +5,7 @@ class rocket {
 
     private type:number;
 
-    constructor(type) {
+    constructor(type:number) {
         this.type = type;
     }
 
@@ -18,9 +18,15 @@ class rocket {
 window.onload = async () => {
 
     // CONST AND VARIABLE DECLARATION
-    const nameLatest = document.querySelector(".lastRocket--name")
+    // @ts-ignore
+    const nameLatest:HTMLElement = document.querySelector(".lastRocket--name")
+    // @ts-ignore
     const typeLatest:HTMLElement = document.querySelector(".lastRocket--type")
+    // @ts-ignore
     const amountAll:HTMLElement = document.querySelector(".generalInfos--totalFlights")
+
+    // @ts-ignore
+    const avgShips:HTMLElement = document.querySelector(".generalInfos--avgShips")
 
 
     // FETCH REQUESTS
@@ -45,20 +51,22 @@ window.onload = async () => {
 
     console.log(dataAll[1].date_utc.toString())
 
-    console.log("Launch year : "+ getLaunchYear("20120239"))
-
     for(let i=0; i<sizeData(dataLaunchpads); i++) {
         let pos = document.createElement("div")
         pos.innerHTML = "Launchpad n° :"+(i+1)+"<br>Lattitude : "+ dataLaunchpads[i].latitude.toString()+ "<br>Longitude : "+ dataLaunchpads[i].longitude.toString() + "<br><br>"
+        // @ts-ignore
         document.querySelector(".launchpads").appendChild(pos)
     }
 
+    let str:string = "2022-02-39"
+    console.log(str.substring(0,10))
 
     nameLatest.textContent = nameLatest.textContent + dataLatest.name.toString()
     typeLatest.innerText = typeLatest.innerText + latestRocket.typeR()
 
     // GENERAL INFOS
     amountAll.innerText = sizeData(dataAll) + " " + amountAll.innerText
+    avgShips.innerText = calcShips(dataAll) + " "+ avgShips.innerText
 
 
     /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
@@ -66,15 +74,27 @@ window.onload = async () => {
     particlesJS.load('particles-js', 'particles.json', function() {
         console.log('callback - particles.js config loaded');
     });
+}
 
+function calcShips(flights:Array<any>){
+    let avg:number = 0;
+    let total:number = 0;
+    for(let i:number = 0; i<flights.length; i++){
+        for(let j:number = 0; j<flights[i].ships.length; i++){
+            total++;
+        }
+    }
+    avg = total / flights.length;
+    return avg.toFixed(2)
 
 }
 
-function sizeData(item) {
-    let fin = false
-    let i = 0
+function sizeData(item:number) {
+    let fin:boolean = false
+    let i:number = 0
 
     while(fin === false){
+        // @ts-ignore
         if(item[i]){
             i++
         }else {
@@ -84,61 +104,17 @@ function sizeData(item) {
     return i
 }
 
-function setCharAt(str, index, chg) {
-    if(index > str.length-1) return str;
+function getLaunchYear(d:number){
+    var date = new Date(d);
 
-    return str.substring(0, index) + chg + str.substring(index+1)
+    console.log("Date: "+date.getDate()+
+        "/"+(date.getMonth()+1)+
+        "/"+date.getFullYear()+
+        " "+date.getHours()+
+        ":"+date.getMinutes()+
+        ":"+date.getSeconds());
 
+    console.log(date.getFullYear())
 }
 
-function convertDate(da){
-    var date = new Date(da * 1000);
-// Hours part from the timestamp
-    var hours = date.getHours();
-// Minutes part from the timestamp
-    var minutes = "0" + date.getMinutes();
-// Seconds part from the timestamp
-    var seconds = "0" + date.getSeconds();
 
-// Will display time in 10:30:23 format
-    var formattedTime = hours + ':' + minutes.substring(-2) + ':' + seconds.substring(-2);
-
-    console.log(formattedTime);
-}
-
-convertDate(1607271420)
-
-function getLaunchYear(date) {
-    let year = "2000"
-    console.log("3 : "+date.charAt(3))
-    if(date.charAt(2) === "0"){
-        setCharAt(year, 2, "0")
-        for(let i=0; i<10; i++){
-            if(i.toString() === date.charAt(3)){
-                console.log(i)
-                setCharAt(year, 3, i.toString())
-            }
-        }
-    }else if(date.charAt(2) === "1"){
-        console.log(year.charAt(2))
-        setCharAt(year, 2, 1)
-        console.log(year.charAt(2))
-        for(let i=0; i<10; i++){
-            if(i.toString() === date.charAt(3)){
-                setCharAt(year, 3, i.toString())
-            }
-        }
-    }else if(date.charAt(2) === "2") {
-        setCharAt(year, 2, "2")
-        console.log(year.charAt(2))
-        for(let i=0; i<10; i++){
-            if(i.toString() === date.charAt(3)){
-                setCharAt(year, 3, i.toString())
-            }
-        }
-    }else {
-        console.log("this year is still yet to come")
-    }
-
-    return year
-}

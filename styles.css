@@ -6,6 +6,9 @@ body {
     color: white;
     font-family: "Helvetica Neue";
 
+    scroll-behavior: smooth;
+
+
     --color--88: #10002B;
     --color--78: #240046;
     --color--68: #3C096C;
@@ -15,7 +18,7 @@ body {
     --color--28: #C77DFF;
     --color--18: #E0AAFF;
 
-    padding: 50px 150px 250px 150px;
+    padding: 0px 150px 250px 150px;
     position: relative;
 
 }
@@ -112,6 +115,10 @@ h3 {
     margin: 50px 0 0 50px;
 }
 
+.generalInfos > h3 {
+    padding-top: 20px;
+}
+
 .generalInfos--elem {
     font-size: 24px;
     padding: 10px;
@@ -124,5 +131,4 @@ h3 {
     left: 0;
     right: 0;
     bottom: 0;
-
 }
