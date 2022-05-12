@@ -48,7 +48,7 @@ var rocket = /** @class */ (function () {
 }());
 // @ts-ignore
 window.onload = function () { return __awaiter(_this, void 0, void 0, function () {
-    var nameLatest, typeLatest, successLatest, flightNumberLatest, idLatest, amountAll, avgShips, latest, all, launchpads, landpads, dataAll, dataLatest, dataLaunchpads, dataLandpads, latestRocket, i, pos;
+    var nameLatest, typeLatest, successLatest, flightNumberLatest, idLatest, amountAll, avgShips, totalLandpads, totalLaunchpads, avgSuccessLaunch, avgSuccessLand, latest, all, launchpads, landpads, dataAll, dataLatest, dataLaunchpads, dataLandpads, latestRocket, i, pos;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -59,6 +59,10 @@ window.onload = function () { return __awaiter(_this, void 0, void 0, function (
                 idLatest = document.querySelector(".lastRocket--id");
                 amountAll = document.querySelector(".generalInfos--totalFlights");
                 avgShips = document.querySelector(".generalInfos--avgShips");
+                totalLandpads = document.querySelector(".generalInfos--landpads");
+                totalLaunchpads = document.querySelector(".generalInfos--launchpads");
+                avgSuccessLaunch = document.querySelector(".generalInfos--avgSuccessLaunch");
+                avgSuccessLand = document.querySelector(".generalInfos--avgSuccessLand");
                 return [4 /*yield*/, fetch("https://api.spacexdata.com/v4/launches/latest")];
             case 1:
                 latest = _a.sent();
@@ -104,8 +108,12 @@ window.onload = function () { return __awaiter(_this, void 0, void 0, function (
                 idLatest.innerHTML = idLatest.innerHTML + " " + dataLatest.id.toString();
                 dataLatest.success ? successLatest.innerHTML = successLatest.innerHTML + " SUCCESS" : successLatest.innerHTML = successLatest.innerHTML + " FAILURE";
                 // GENERAL INFOS
-                amountAll.innerText = sizeData(dataAll) + " " + amountAll.innerText;
-                avgShips.innerText = calcShips(dataAll) + " " + avgShips.innerText;
+                amountAll.innerHTML = '<div class="generalInfos--elem--stat">' + sizeData(dataAll) + "</div> " + amountAll.innerText;
+                avgShips.innerHTML = '<div class="generalInfos--elem--stat">' + calcShips(dataAll) + "</div> " + avgShips.innerText;
+                totalLandpads.innerHTML = '<div class="generalInfos--elem--stat">' + sizeData(dataLandpads) + "</div> " + totalLandpads.innerText;
+                totalLaunchpads.innerHTML = '<div class="generalInfos--elem--stat">' + sizeData(dataLaunchpads) + "</div> " + totalLaunchpads.innerText;
+                avgSuccessLaunch.innerHTML = '<div class="generalInfos--elem--stat">' + calcSuccessLaunch(dataLaunchpads) + "%</div> " + avgSuccessLaunch.innerText;
+                avgSuccessLand.innerHTML = '<div class="generalInfos--elem--stat">' + calcSuccessLand(dataLandpads) + "%</div> " + avgSuccessLand.innerText;
                 /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
                 // @ts-ignore
                 particlesJS.load('particles-js', 'particles.json', function () {
@@ -125,6 +133,36 @@ function calcShips(flights) {
     }
     avg = total / flights.length;
     return avg.toFixed(2);
+}
+function calcSuccessLaunch(flights) {
+    var totalAttempts = 0;
+    var totalSuccesses = 0;
+    var res = 0;
+    for (var i = 0; i < flights.length; i++) {
+        if (flights[i].launch_attempts !== 0) {
+            console.log(flights[i].launch_attempts);
+            totalAttempts += flights[i].launch_attempts;
+            totalSuccesses += flights[i].launch_successes;
+        }
+    }
+    res = (totalSuccesses / totalAttempts);
+    res = res * 100;
+    return res.toFixed(1);
+}
+function calcSuccessLand(flights) {
+    var totalAttempts = 0;
+    var totalSuccesses = 0;
+    var res = 0;
+    for (var i = 0; i < flights.length; i++) {
+        if (flights[i].landing_attempts !== 0) {
+            console.log(flights[i]);
+            totalAttempts += flights[i].landing_attempts;
+            totalSuccesses += flights[i].landing_successes;
+        }
+    }
+    res = (totalSuccesses / totalAttempts);
+    res = res * 100;
+    return res.toFixed(1);
 }
 function sizeData(item) {
     var fin = false;

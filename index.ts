@@ -18,6 +18,8 @@ class rocket {
 window.onload = async () => {
 
     // CONST AND VARIABLE DECLARATION
+
+    // LATEST ROCKET
     // @ts-ignore
     const nameLatest:HTMLElement = document.querySelector(".lastRocket--name")
     // @ts-ignore
@@ -30,11 +32,19 @@ window.onload = async () => {
     const idLatest:HTMLElement = document.querySelector(".lastRocket--id")
 
 
+    // GENERAL INFO
     // @ts-ignore
     const amountAll:HTMLElement = document.querySelector(".generalInfos--totalFlights")
     // @ts-ignore
     const avgShips:HTMLElement = document.querySelector(".generalInfos--avgShips")
-
+    // @ts-ignore
+    const totalLandpads:HTMLElement = document.querySelector(".generalInfos--landpads")
+    // @ts-ignore
+    const totalLaunchpads:HTMLElement = document.querySelector(".generalInfos--launchpads")
+    // @ts-ignore
+    const avgSuccessLaunch:HTMLElement = document.querySelector(".generalInfos--avgSuccessLaunch")
+    // @ts-ignore
+    const avgSuccessLand:HTMLElement = document.querySelector(".generalInfos--avgSuccessLand")
 
     // FETCH REQUESTS
     let latest = await fetch("https://api.spacexdata.com/v4/launches/latest")
@@ -73,9 +83,12 @@ window.onload = async () => {
 
 
     // GENERAL INFOS
-    amountAll.innerText = sizeData(dataAll) + " " + amountAll.innerText
-    avgShips.innerText = calcShips(dataAll) + " "+ avgShips.innerText
-
+    amountAll.innerHTML ='<div class="generalInfos--elem--stat">'+sizeData(dataAll) + "</div> " + amountAll.innerText
+    avgShips.innerHTML = '<div class="generalInfos--elem--stat">'+calcShips(dataAll) + "</div> "+ avgShips.innerText
+    totalLandpads.innerHTML = '<div class="generalInfos--elem--stat">'+sizeData(dataLandpads) + "</div> " + totalLandpads.innerText
+    totalLaunchpads.innerHTML = '<div class="generalInfos--elem--stat">'+sizeData(dataLaunchpads) + "</div> " + totalLaunchpads.innerText
+    avgSuccessLaunch.innerHTML = '<div class="generalInfos--elem--stat">'+calcSuccessLaunch(dataLaunchpads) + "%</div> " + avgSuccessLaunch.innerText
+    avgSuccessLand.innerHTML = '<div class="generalInfos--elem--stat">'+calcSuccessLand(dataLandpads) + "%</div> " + avgSuccessLand.innerText
 
     /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
     // @ts-ignore
@@ -95,6 +108,40 @@ function calcShips(flights:Array<any>){
     avg = total / flights.length;
     return avg.toFixed(2)
 
+}
+
+function calcSuccessLaunch(flights:Array<any>){
+    let totalAttempts:number = 0;
+    let totalSuccesses:number = 0;
+    let res:number = 0;
+    for(let i:number = 0; i<flights.length; i++){
+        if(flights[i].launch_attempts !== 0){
+            console.log(flights[i].launch_attempts)
+            totalAttempts+= flights[i].launch_attempts
+            totalSuccesses+= flights[i].launch_successes
+        }
+    }
+
+    res = (totalSuccesses / totalAttempts)
+    res = res * 100
+    return res.toFixed(1)
+}
+
+function calcSuccessLand(flights:Array<any>){
+    let totalAttempts:number = 0;
+    let totalSuccesses:number = 0;
+    let res:number = 0;
+    for(let i:number = 0; i<flights.length; i++){
+        if(flights[i].landing_attempts !== 0){
+            console.log(flights[i])
+            totalAttempts+= flights[i].landing_attempts
+            totalSuccesses+= flights[i].landing_successes
+        }
+    }
+
+    res = (totalSuccesses / totalAttempts)
+    res = res * 100
+    return res.toFixed(1)
 }
 
 function sizeData(item:number) {
