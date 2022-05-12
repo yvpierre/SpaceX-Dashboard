@@ -30,6 +30,8 @@ window.onload = async () => {
     const flightNumberLatest:HTMLElement = document.querySelector(".lastRocket--flightNumber")
     // @ts-ignore
     const idLatest:HTMLElement = document.querySelector(".lastRocket--id")
+    // @ts-ignore
+    let mediaLatest:HTMLElement = document.querySelector(".lastRocket--media")
 
 
     // GENERAL INFO
@@ -80,6 +82,15 @@ window.onload = async () => {
     flightNumberLatest.innerHTML = flightNumberLatest.innerHTML + " " +dataLatest.flight_number.toString()
     idLatest.innerHTML = idLatest.innerHTML + " " + dataLatest.id.toString()
     dataLatest.success ? successLatest.innerHTML = successLatest.innerHTML + " SUCCESS" : successLatest.innerHTML = successLatest.innerHTML + " FAILURE"
+    // @ts-ignore
+    dataLatest.links.youtube_id ? mediaLatest.src = "https://www.youtube.com/embed/"+dataLatest.links.youtube_id : console.log("NO SOURCE FOR THE MEDIA")
+
+    // mediaLatest.src = "https://www.youtube.com/watch?v="+dataLatest.links.youtube_id
+
+    // mapLatest = fillMap(dataLaunchpads[1])
+
+
+
 
 
     // GENERAL INFOS
@@ -95,6 +106,21 @@ window.onload = async () => {
     particlesJS.load('particles-js', 'particles.json', function() {
         console.log('callback - particles.js config loaded');
     });
+}
+
+function fillMap(item:any) {
+    // @ts-ignore
+    const map = L.map('lastRocket--map').setView([item.latitude, item.longitude], 1);
+   // @ts-ignore
+    L.tileLayer('https://maps.geoapify.com/v1/tile/dark-matter-purple-roads/{z}/{x}/{y}.png?apiKey=08baea174349417a9d921269369a8e4e', {
+        zoom: 20, id: 'osm-bright'
+    }).addTo(map);
+
+    // @ts-ignore
+    L.marker([item.latitude, item.longitude]).addTo(map);
+
+    return map
+
 }
 
 function calcShips(flights:Array<any>){
@@ -116,7 +142,6 @@ function calcSuccessLaunch(flights:Array<any>){
     let res:number = 0;
     for(let i:number = 0; i<flights.length; i++){
         if(flights[i].launch_attempts !== 0){
-            console.log(flights[i].launch_attempts)
             totalAttempts+= flights[i].launch_attempts
             totalSuccesses+= flights[i].launch_successes
         }
@@ -133,7 +158,6 @@ function calcSuccessLand(flights:Array<any>){
     let res:number = 0;
     for(let i:number = 0; i<flights.length; i++){
         if(flights[i].landing_attempts !== 0){
-            console.log(flights[i])
             totalAttempts+= flights[i].landing_attempts
             totalSuccesses+= flights[i].landing_successes
         }
@@ -162,13 +186,14 @@ function sizeData(item:number) {
 function getLaunchYear(d:number){
     var date = new Date(d);
 
-    console.log("Date: "+date.getDate()+
+    /* console.log("Date: "+date.getDate()+
         "/"+(date.getMonth()+1)+
         "/"+date.getFullYear()+
         " "+date.getHours()+
         ":"+date.getMinutes()+
         ":"+date.getSeconds());
 
+     */
     console.log(date.getFullYear())
 }
 

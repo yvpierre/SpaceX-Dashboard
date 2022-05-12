@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css"/>
     <title>Titre</title>
 </head>
 <body>
@@ -24,7 +25,13 @@
                         <p class="lastRocket--information lastRocket--success"><strong>State :</strong></p>
                         <p class="lastRocket--information lastRocket--type"><strong>Rocket type :</strong></p>
                     </div>
-                    <div class="lastRocket--map">MAP</div>
+                    <iframe class="lastRocket--media"
+                            title="Video of the latest rocket launch"
+                            width="300"
+                            height="200"
+                            src=""
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    ></iframe>
                 </div>
             </div>
         </div>
@@ -138,6 +145,7 @@
 
 </div>
 
+    <script src="node_modules/leaflet/dist/leaflet.js"></script>
     <script src="node_modules/particles.js/particles.js"></script>
     <script src="index.js"></script>
 

@@ -48,7 +48,7 @@ var rocket = /** @class */ (function () {
 }());
 // @ts-ignore
 window.onload = function () { return __awaiter(_this, void 0, void 0, function () {
-    var nameLatest, typeLatest, successLatest, flightNumberLatest, idLatest, amountAll, avgShips, totalLandpads, totalLaunchpads, avgSuccessLaunch, avgSuccessLand, latest, all, launchpads, landpads, dataAll, dataLatest, dataLaunchpads, dataLandpads, latestRocket, i, pos;
+    var nameLatest, typeLatest, successLatest, flightNumberLatest, idLatest, mediaLatest, amountAll, avgShips, totalLandpads, totalLaunchpads, avgSuccessLaunch, avgSuccessLand, latest, all, launchpads, landpads, dataAll, dataLatest, dataLaunchpads, dataLandpads, latestRocket, i, pos;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -57,6 +57,7 @@ window.onload = function () { return __awaiter(_this, void 0, void 0, function (
                 successLatest = document.querySelector(".lastRocket--success");
                 flightNumberLatest = document.querySelector(".lastRocket--flightNumber");
                 idLatest = document.querySelector(".lastRocket--id");
+                mediaLatest = document.querySelector(".lastRocket--media");
                 amountAll = document.querySelector(".generalInfos--totalFlights");
                 avgShips = document.querySelector(".generalInfos--avgShips");
                 totalLandpads = document.querySelector(".generalInfos--landpads");
@@ -107,6 +108,10 @@ window.onload = function () { return __awaiter(_this, void 0, void 0, function (
                 flightNumberLatest.innerHTML = flightNumberLatest.innerHTML + " " + dataLatest.flight_number.toString();
                 idLatest.innerHTML = idLatest.innerHTML + " " + dataLatest.id.toString();
                 dataLatest.success ? successLatest.innerHTML = successLatest.innerHTML + " SUCCESS" : successLatest.innerHTML = successLatest.innerHTML + " FAILURE";
+                // @ts-ignore
+                dataLatest.links.youtube_id ? mediaLatest.src = "https://www.youtube.com/embed/" + dataLatest.links.youtube_id : console.log("NO SOURCE FOR THE MEDIA");
+                // mediaLatest.src = "https://www.youtube.com/watch?v="+dataLatest.links.youtube_id
+                // mapLatest = fillMap(dataLaunchpads[1])
                 // GENERAL INFOS
                 amountAll.innerHTML = '<div class="generalInfos--elem--stat">' + sizeData(dataAll) + "</div> " + amountAll.innerText;
                 avgShips.innerHTML = '<div class="generalInfos--elem--stat">' + calcShips(dataAll) + "</div> " + avgShips.innerText;
@@ -123,6 +128,17 @@ window.onload = function () { return __awaiter(_this, void 0, void 0, function (
         }
     });
 }); };
+function fillMap(item) {
+    // @ts-ignore
+    var map = L.map('lastRocket--map').setView([item.latitude, item.longitude], 1);
+    // @ts-ignore
+    L.tileLayer('https://maps.geoapify.com/v1/tile/dark-matter-purple-roads/{z}/{x}/{y}.png?apiKey=08baea174349417a9d921269369a8e4e', {
+        zoom: 20, id: 'osm-bright'
+    }).addTo(map);
+    // @ts-ignore
+    L.marker([item.latitude, item.longitude]).addTo(map);
+    return map;
+}
 function calcShips(flights) {
     var avg = 0;
     var total = 0;
@@ -140,7 +156,6 @@ function calcSuccessLaunch(flights) {
     var res = 0;
     for (var i = 0; i < flights.length; i++) {
         if (flights[i].launch_attempts !== 0) {
-            console.log(flights[i].launch_attempts);
             totalAttempts += flights[i].launch_attempts;
             totalSuccesses += flights[i].launch_successes;
         }
@@ -155,7 +170,6 @@ function calcSuccessLand(flights) {
     var res = 0;
     for (var i = 0; i < flights.length; i++) {
         if (flights[i].landing_attempts !== 0) {
-            console.log(flights[i]);
             totalAttempts += flights[i].landing_attempts;
             totalSuccesses += flights[i].landing_successes;
         }
@@ -180,11 +194,13 @@ function sizeData(item) {
 }
 function getLaunchYear(d) {
     var date = new Date(d);
-    console.log("Date: " + date.getDate() +
-        "/" + (date.getMonth() + 1) +
-        "/" + date.getFullYear() +
-        " " + date.getHours() +
-        ":" + date.getMinutes() +
-        ":" + date.getSeconds());
+    /* console.log("Date: "+date.getDate()+
+        "/"+(date.getMonth()+1)+
+        "/"+date.getFullYear()+
+        " "+date.getHours()+
+        ":"+date.getMinutes()+
+        ":"+date.getSeconds());
+
+     */
     console.log(date.getFullYear());
 }
