@@ -17,8 +17,6 @@ class rocket {
 // @ts-ignore
 window.onload = async () => {
 
-    // CONST AND VARIABLE DECLARATION
-
     // LATEST ROCKET
     // @ts-ignore
     const nameLatest:HTMLElement = document.querySelector(".lastRocket--name")
@@ -47,6 +45,9 @@ window.onload = async () => {
     const avgSuccessLaunch:HTMLElement = document.querySelector(".generalInfos--avgSuccessLaunch")
     // @ts-ignore
     const avgSuccessLand:HTMLElement = document.querySelector(".generalInfos--avgSuccessLand")
+
+    // @ts-ignore
+    const rocketBtn:HTMLElement = document.querySelector(".btn-AllRockets")
 
     // FETCH REQUESTS
     let latest = await fetch("https://api.spacexdata.com/v4/launches/latest")
@@ -108,11 +109,60 @@ window.onload = async () => {
 
     // @ts-ignore
 
-     fillMapDisplay(dataLaunchpads, dataLandpads)
+    fillMapDisplay(dataLaunchpads, dataLandpads)
+    // fillTabDisplay(dataAll)
+
+
+
 }
+/* WIP : Tab with the differents data about the rockets. Based on Backgrid.js
+
+function fillTabDisplay(data:Array<any>) {
+    // @ts-ignore
+    var Rocket = Backbone.Model.extend({});
+
+    // @ts-ignore
+    var ListRockets = Backbone.Collection.extend({
+        model: Rocket,
+        url: "https://api.spacexdata.com/v4/launches/"
+    });
+
+    var listRockets = new ListRockets();
+
+    // @ts-ignore
+    var columns = [{
+        name: "id", // The key of the model attribute
+        label: "ID", // The name to display in the header
+        editable: false, // By default every cell in a column is editable, but *ID* shouldn't be
+        // Defines a cell type, and ID is displayed as an integer without the ',' separating 1000s.
+        // @ts-ignore
+        cell: Backgrid.IntegerCell.extend({
+            orderSeparator: ''
+        })
+    }, {
+        name: "name",
+        label: "Name",
+        // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
+        cell: "string" // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
+    }];
+
+// Initialize a new Grid instance
+    // @ts-ignore
+    var grid = new Backgrid.Grid({
+        columns: columns,
+        collection: listRockets
+    });
+
+// Render the grid and attach the root to your HTML document
+    // @ts-ignore
+    $("#tabDisplay").append(grid.render().el);
+
+// Fetch some countries from the url
+    listRockets.fetch({reset: true});
+}
+ */
 
 function fillMapDisplay(land:Array<any>, launch:Array<any>) {
-
     // @ts-ignore
     let map = L.map('mapDisplay', {
         center: [0, -60],
@@ -124,8 +174,7 @@ function fillMapDisplay(land:Array<any>, launch:Array<any>) {
         p2 = map.getSize(),
         // @ts-ignore
         boundsMap = L.bounds(p1,p2);
-    console.log(p2)
-
+        console.log(p2)
      */
 
     map.options.minZoom = 2;
@@ -137,16 +186,13 @@ function fillMapDisplay(land:Array<any>, launch:Array<any>) {
         // WIP bounds: boundsMap
     }).addTo(map);
 
-
     for(let i:number = 0; i<land.length; i++) {
-        console.log("Landpad n"+i+" Coords : "+land[i].latitude+", "+land[i].longitude)
         // @ts-ignore
         let marker = L.marker(L.latLng([land[i].latitude, land[i].longitude])).addTo(map);
         marker.bindPopup(land[i].details.toString())
     }
 
     for(let j:number = 0; j<launch.length; j++) {
-        console.log("Launchpad n"+j+" Coords : "+launch[j].latitude+", "+launch[j].longitude)
         // @ts-ignore
         let marker = L.marker(L.latLng([launch[j].latitude, launch[j].longitude])).addTo(map);
         marker.bindPopup(launch[j].details.toString())
