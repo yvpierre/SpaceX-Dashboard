@@ -118,7 +118,6 @@ function fillMapDisplay(land:Array<any>, launch:Array<any>) {
         center: [0, -60],
         zoom: 2
     });
-    console.log("bite")
     // @ts-ignore
     /* WIP
         let p1 = L.point(0,0),
