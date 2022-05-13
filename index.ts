@@ -72,7 +72,6 @@ window.onload = async () => {
         let pos = document.createElement("div")
         pos.innerHTML = "Launchpad n° :"+(i+1)+"<br>Lattitude : "+ dataLaunchpads[i].latitude.toString()+ "<br>Longitude : "+ dataLaunchpads[i].longitude.toString() + "<br><br>"
         // @ts-ignore
-        document.querySelector(".launchpads").appendChild(pos)
     }
 
 
@@ -106,21 +105,54 @@ window.onload = async () => {
     particlesJS.load('particles-js', 'particles.json', function() {
         console.log('callback - particles.js config loaded');
     });
+
+    // @ts-ignore
+
+     fillMapDisplay(dataLaunchpads, dataLandpads)
 }
 
-function fillMap(item:any) {
+function fillMapDisplay(land:Array<any>, launch:Array<any>) {
+
     // @ts-ignore
-    const map = L.map('lastRocket--map').setView([item.latitude, item.longitude], 1);
-   // @ts-ignore
-    L.tileLayer('https://maps.geoapify.com/v1/tile/dark-matter-purple-roads/{z}/{x}/{y}.png?apiKey=08baea174349417a9d921269369a8e4e', {
-        zoom: 20, id: 'osm-bright'
+    let map = L.map('mapDisplay', {
+        center: [0, -60],
+        zoom: 2
+    });
+    console.log("bite")
+    // @ts-ignore
+    /* WIP
+        let p1 = L.point(0,0),
+        p2 = map.getSize(),
+        // @ts-ignore
+        boundsMap = L.bounds(p1,p2);
+    console.log(p2)
+
+     */
+
+    map.options.minZoom = 2;
+    map.options.maxZoom = 15;
+    // @ts-ignore
+    L.tileLayer('https://maps.geoapify.com/v1/tile/dark-matter-dark-purple/{z}/{x}/{y}.png?apiKey=08baea174349417a9d921269369a8e4e', {
+        id: 'osm-bright',
+        // @ts-ignore
+        // WIP bounds: boundsMap
     }).addTo(map);
 
-    // @ts-ignore
-    L.marker([item.latitude, item.longitude]).addTo(map);
 
+    for(let i:number = 0; i<land.length; i++) {
+        console.log("Landpad n"+i+" Coords : "+land[i].latitude+", "+land[i].longitude)
+        // @ts-ignore
+        let marker = L.marker(L.latLng([land[i].latitude, land[i].longitude])).addTo(map);
+        marker.bindPopup(land[i].details.toString())
+    }
+
+    for(let j:number = 0; j<launch.length; j++) {
+        console.log("Launchpad n"+j+" Coords : "+launch[j].latitude+", "+launch[j].longitude)
+        // @ts-ignore
+        let marker = L.marker(L.latLng([launch[j].latitude, launch[j].longitude])).addTo(map);
+        marker.bindPopup(launch[j].details.toString())
+    }
     return map
-
 }
 
 function calcShips(flights:Array<any>){

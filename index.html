@@ -38,7 +38,7 @@
 
         <div class="right">
             <div class="generalInfos">
-                <h3>GENERAL&nbsp;<br/>INFORMATIONS</h3>
+                <h3>FUN&nbsp;STATS</h3>
                 <div class="generalInfos--content">
                     <div class="generalInfos--elem generalInfos--totalFlights">Total flights</div>
                     <div class="generalInfos--elem generalInfos--avgShips">Ships per flight</div>
@@ -57,90 +57,93 @@
 
     </div>
 
-
-    <section class="rocketTab">
-        <table div="rocketTab--main">
-            <div class="rocketTab--titleAndBtn">
-                <h2>ALL ROCKETS</h2>
-                <div class="rocketTab--btn">Sort</div>
-                <div class="rocketTab--btn">Filter</div>
-            </div>
-            <tr class="rocketTab--header">
-                <th>Name</th>
-                <th>Launch Date</th>
-                <th>Launchpad</th>
-                <th>Height</th>
-                <th>ID</th>
-            </tr>
-            <tr class="rocketTab--child">
-                <td>DragonFly XT-56</td>
-                <td>04 / 20 / 1022</td>
-                <td>Dallas #12</td>
-                <td>2190mi</td>
-                <td>DI0288240772208</td>
-            </tr>
-            <tr class="rocketTab--child">
-                <td>DragonFly XT-56</td>
-                <td>04 / 20 / 1022</td>
-                <td>Dallas #12</td>
-                <td>2190mi</td>
-                <td>DI0288240772208</td>
-            </tr>
-        </table>
-        <div class="rocketTab--pagination">Items 1 - 20 out of 173</div>
-
-        <div class="rocketTab--allRocketsBtn">See all rockets</div>
-    </section>
-
-    <section class="launchpadsList">
-        <h2>LAUNCHPADS</h2>
-
-        <div class="launchpadsList--elem">
-            <h3>Dragonfly XT-6</h3>
-            <div class="launchpadsList--intro">
-                Created in ... and installed in .... This is the ..th launchpad
-                from SpaceX since its creations
-            </div>
-            <div class="launchpadsList--infos">
-                <div class="launchpadsList--information">ID : 208242972</div>
-                <div class="launchpadsList--information">Departures : 23</div>
-                <div class="launchpadsList--information">Floor area : 24sqf</div>
-            </div>
+    <div class="rest">
+        <!-- MAP WITH LAUNCHPADS AND LANDPADS-->
+        <div class="map">
+            <h2>ALL LAUNCHPADS AND LANDPADS</h2>
+            <div class="mapDisplay" id="mapDisplay"></div>
         </div>
 
-        <div class="launchpadsList--elem">
-            <h3>Dragonfly XT-6</h3>
-            <div class="launchpadsList--intro">
-                Created in ... and installed in .... This is the ..th launchpad
-                from SpaceX since its creations
+
+        <section class="launchpadsList">
+            <h2>LAUNCHPADS</h2>
+
+            <div class="launchpadsList--elem">
+                <h3>Dragonfly XT-6</h3>
+                <div class="launchpadsList--intro">
+                    Created in ... and installed in .... This is the ..th launchpad
+                    from SpaceX since its creations
+                </div>
+                <div class="launchpadsList--infos">
+                    <div class="launchpadsList--information">ID : 208242972</div>
+                    <div class="launchpadsList--information">Departures : 23</div>
+                    <div class="launchpadsList--information">Floor area : 24sqf</div>
+                </div>
             </div>
-            <div class="launchpadsList--infos">
-                <div class="launchpadsList--information">ID : 208242972</div>
-                <div class="launchpadsList--information">Departures : 23</div>
-                <div class="launchpadsList--information">Floor area : 24sqf</div>
+
+            <div class="launchpadsList--elem">
+                <h3>Dragonfly XT-6</h3>
+                <div class="launchpadsList--intro">
+                    Created in ... and installed in .... This is the ..th launchpad
+                    from SpaceX since its creations
+                </div>
+                <div class="launchpadsList--infos">
+                    <div class="launchpadsList--information">ID : 208242972</div>
+                    <div class="launchpadsList--information">Departures : 23</div>
+                    <div class="launchpadsList--information">Floor area : 24sqf</div>
+                </div>
             </div>
-        </div>
 
-        <div class="launchpadsList--elem">
-            <h3>Dragonfly XT-6</h3>
-            <div class="launchpadsList--intro">
-                Created in ... and installed in .... This is the ..th launchpad
-                from SpaceX since its creations
+            <div class="launchpadsList--elem">
+                <h3>Dragonfly XT-6</h3>
+                <div class="launchpadsList--intro">
+                    Created in ... and installed in .... This is the ..th launchpad
+                    from SpaceX since its creations
+                </div>
+                <div class="launchpadsList--infos">
+                    <div class="launchpadsList--information">ID : 208242972</div>
+                    <div class="launchpadsList--information">Departures : 23</div>
+                    <div class="launchpadsList--information">Floor area : 24sqf</div>
+                </div>
             </div>
-            <div class="launchpadsList--infos">
-                <div class="launchpadsList--information">ID : 208242972</div>
-                <div class="launchpadsList--information">Departures : 23</div>
-                <div class="launchpadsList--information">Floor area : 24sqf</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="launchpads">
-            <h2>Launchpads :</h2>
+        </section>
 
 
-    </section>
+        <section class="rocketTab">
+            <table div="rocketTab--main">
+                <div class="rocketTab--titleAndBtn">
+                    <h2>ALL ROCKETS</h2>
+                    <div class="rocketTab--btn">Sort</div>
+                    <div class="rocketTab--btn">Filter</div>
+                </div>
+                <tr class="rocketTab--header">
+                    <th>Name</th>
+                    <th>Launch Date</th>
+                    <th>Launchpad</th>
+                    <th>Height</th>
+                    <th>ID</th>
+                </tr>
+                <tr class="rocketTab--child">
+                    <td>DragonFly XT-56</td>
+                    <td>04 / 20 / 1022</td>
+                    <td>Dallas #12</td>
+                    <td>2190mi</td>
+                    <td>DI0288240772208</td>
+                </tr>
+                <tr class="rocketTab--child">
+                    <td>DragonFly XT-56</td>
+                    <td>04 / 20 / 1022</td>
+                    <td>Dallas #12</td>
+                    <td>2190mi</td>
+                    <td>DI0288240772208</td>
+                </tr>
+            </table>
+            <div class="rocketTab--pagination">Items 1 - 20 out of 173</div>
 
+            <div class="rocketTab--allRocketsBtn">See all rockets</div>
+        </section>
+
+    </div>
 
 
 </div>
